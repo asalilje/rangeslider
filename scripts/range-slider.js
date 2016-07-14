@@ -1,8 +1,13 @@
 class RangeSlider {
 
-    constructor(element, options) {
+    constructor(element) {
         this.element = element;
-        this.options = options;
+        this.rangeStart = parseFloat(element.dataset.sliderStart);
+        this.rangeEnd = parseFloat(element.dataset.sliderEnd);
+
+        if (!this.rangeStart || !this.rangeEnd)
+            return;
+
         this.elementStart = this.getLeftPosition(element);
         this.elementWidth = element.offsetWidth;
         this.intervalTrack = element.querySelector(".slider-interval");
@@ -38,15 +43,20 @@ class RangeSlider {
         if (this.activeHandle)  {
             let position = this.getMouseOffset(e);
             position = this.activeHandle.setPosition(position);
-
-            const percentage = position/this.elementWidth;
-            const value = (this.options.end - this.options.start) * percentage;
+            const value = this.calculateHandleValue(position);
             this.activeHandle.element.setAttribute("data-slider-value", value.toString());
-
             this.activeHandle.element.style.left = `${position}px`;
             this.setActiveInterval();
             return false;
         }
+    }
+
+    calculateHandleValue(position) {
+        const percentage = position/this.elementWidth;
+        console.log(percentage);
+
+        const valueBase = this.rangeEnd - this.rangeStart;
+        return (valueBase * percentage) + this.rangeStart;
     }
 
     setMinPosition(position) {
