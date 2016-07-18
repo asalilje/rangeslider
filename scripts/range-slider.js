@@ -2,10 +2,18 @@ class RangeSlider {
 
     constructor(element) {
         this.element = element;
-        this.rangeStart = parseFloat(element.dataset.sliderStart);
-        this.rangeEnd = parseFloat(element.dataset.sliderEnd);
+        this.rangeValues = [];
+        this.rangePercentages = [];
+        element.dataset.sliderValues.split(",").forEach(item => {
+           if (!isNaN(parseFloat(item.trim())))
+            this.rangeValues.push(parseFloat(item.trim()));
+        });
+        element.dataset.sliderPercentages.split(",").forEach(item => {
+            if (!isNaN(parseFloat(item.trim())))
+                this.rangePercentages.push(parseFloat(item.trim()));
+        });
 
-        if (!this.rangeStart || !this.rangeEnd)
+        if (!this.rangeValues.length === 0|| this.rangeValues.length !== this.rangePercentages.length)
             return;
 
         this.elementStart = this.getLeftPosition(element);
@@ -52,26 +60,45 @@ class RangeSlider {
     }
 
     calculateHandleValue(position) {
-        const percentage = position/this.elementWidth;
+        const percentage = position/this.elementWidth * 100;
         console.log(percentage);
 
-        const valueBase = this.rangeEnd - this.rangeStart;
-        return (valueBase * percentage) + this.rangeStart;
+        const rangeSection = this.getRangeSection(percentage);
+        const sectionStartValue = this.rangeValues[rangeSection - 1];
+        const sectionEndValue = this.rangeValues[rangeSection];
+        const sectionStartPercentage = this.rangePercentages[rangeSection - 1];
+        const sectionEndPercentage = this.rangePercentages[rangeSection];
+        const sectionRatio = 100 / (sectionEndPercentage - sectionStartPercentage);
+        const sectionValue = sectionEndValue - sectionStartValue;
+
+        return Math.ceil((sectionValue * ((percentage - sectionStartPercentage) * sectionRatio) / 100) + sectionStartValue);
+    }
+
+    getRangeSection(percentage) {
+        let section = 1;
+        while(percentage > this.rangePercentages[section]) {
+            section++;
+        };
+        return section;
     }
 
     setMinPosition(position) {
         if (position < 0)
             return 0;
-        if (position > this.maxHandle.offsetLeft)
+        if (position > this.maxHandle.offsetLeft) {
+            this.minHandle.style.zIndex = 2;
             return this.maxHandle.offsetLeft;
+        }
         return position;
     }
 
     setMaxPosition(position) {
-        if (position < this.minHandle.offsetLeft)
+        if (position < this.minHandle.offsetLeft) {
+            this.maxHandle.style.zIndex = 2;
             return this.minHandle.offsetLeft;
+        }
         if (position > this.getMaxPosition())
-            return this.getMaxPosition();
+            return this.elementWidth;
         return position;
     }
 
