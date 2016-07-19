@@ -62,23 +62,44 @@ class RangeSlider {
     calculateHandleValue(position) {
         const percentage = position/this.elementWidth * 100;
         console.log(percentage);
-
-        const rangeSection = this.getRangeSection(percentage);
-        const sectionStartValue = this.rangeValues[rangeSection - 1];
-        const sectionEndValue = this.rangeValues[rangeSection];
-        const sectionStartPercentage = this.rangePercentages[rangeSection - 1];
-        const sectionEndPercentage = this.rangePercentages[rangeSection];
-        const sectionRatio = 100 / (sectionEndPercentage - sectionStartPercentage);
-        const sectionValue = sectionEndValue - sectionStartValue;
-
-        return Math.ceil((sectionValue * ((percentage - sectionStartPercentage) * sectionRatio) / 100) + sectionStartValue);
+        const rangeSection = this.getRangeSectionByPercentage(percentage);
+        const values = this.getSectionValues(rangeSection);
+        return Math.ceil((percentage - values.startPercentage) * (values.value * values.ratio) / 100 + values.startValue);
     }
 
-    getRangeSection(percentage) {
+    calculateHandlePosition(value) {
+        const rangeSection = this.getRangeSectionByValue(value);
+        const values = this.getSectionValues(rangeSection);
+        return (value - values.startValue) / (values.value * values.ratio) * 100 + values.startPercentage;
+    }
+
+    getSectionValues(rangeSection) {
+        const sectionValues = {
+            startValue: this.rangeValues[rangeSection - 1],
+            endValue: this.rangeValues[rangeSection],
+            startPercentage: this.rangePercentages[rangeSection - 1],
+            endPercentage: this.rangePercentages[rangeSection],
+        };
+        sectionValues.value = sectionValues.endValue - sectionValues.startValue;
+        sectionValues.percentage = sectionValues.endPercentage - sectionValues.startPercentage;
+        sectionValues.ratio = 100/sectionValues.percentage;
+
+        return sectionValues;
+    }
+
+    getRangeSectionByPercentage(percentage) {
         let section = 1;
         while(percentage > this.rangePercentages[section]) {
             section++;
-        };
+        }
+        return section;
+    }
+
+    getRangeSectionByValue(value) {
+        let section = 1;
+        while(value > this.rangeValues[section]) {
+            section++;
+        }
         return section;
     }
 
