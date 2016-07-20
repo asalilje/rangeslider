@@ -1,6 +1,6 @@
 .main {
     max-width: 1000px;
-    margin: 30px auto;
+    margin: 60px auto;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
@@ -26,10 +26,18 @@
 
 .slider-handle {
     height: 30px;
-    width: 14px;
+    width: 30px;
+    border-radius: 20%;
     position: absolute;
     background-color: magenta;
+    border: solid 1px white;
     z-index: 1;
+    top: -5px;
+}
+
+.slider-handle.active {
+    background-color: darkmagenta;
+    z-index: 5;
 }
 
 .slider-handle:after {

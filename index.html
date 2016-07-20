@@ -15,12 +15,14 @@
 
 <main class="main">
 
-    <div class="slider clearfix" data-component="RangeSlider" data-slider-values="0,5000,10000" data-slider-percentages="0,50,100">
+    <div class="slider clearfix" data-component="RangeSlider" data-slider-values="-10000,-5000, 5000,10000" data-slider-percentages="0,10,90,100" data-start-value="-8000" data-end-value="8000">
+        <input type class="slider-handle-input" data-slider-handle="min" />
         <div class="slider-track">
             <div class="slider-interval"></div>
             <div class="slider-handle" data-slider-handle="min"></div>
             <div class="slider-handle" data-slider-handle="max"></div>
         </div>
+        <input type class="slider-handle-input" data-slider-handle="max" />
     </div>
 
 </main>
