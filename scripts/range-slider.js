@@ -90,6 +90,7 @@ class RangeSlider {
     handleMove(e) {
         if (this.activeHandle)  {
             let position = this.getMouseOffset(e);
+            console.log("mouse position", position);
             position = this.activeHandle.getPosition(position);
             const value = this.calculateHandleValue(position);
             this.setHandlePosition(this.activeHandle.element, this.activeHandle.label, position, value);
@@ -111,10 +112,7 @@ class RangeSlider {
 
     setHandlePosition(handle, label, position, value) {
         label.value = value.toString();
-        if (handle.getAttribute("data-slider-handle") === "max")
-            handle.style.left = `${position - handle.offsetWidth}px`;
-        else
-            handle.style.left = `${position}px`;
+        handle.style.left = `${position - handle.offsetWidth/2}px`;
         this.setActiveInterval();
     }
 
@@ -165,22 +163,23 @@ class RangeSlider {
     getMinHandlePosition(position) {
         if (position < 0)
             return 0;
-        if (position + this.minHandle.offsetWidth > this.maxHandle.offsetLeft) {
+        if ((position + this.minHandle.offsetWidth/2) > this.maxHandle.offsetLeft) {
             this.minHandle.style.zIndex = 5;
             this.maxHandle.style.zIndex = 1;
         }
-        if (position > this.maxHandle.offsetLeft)
-            return this.maxHandle.offsetLeft;
+        if (position > (this.maxHandle.offsetLeft + this.maxHandle.offsetWidth/2))
+            return this.maxHandle.offsetLeft + this.maxHandle.offsetWidth/2;
         return position;
     }
 
     getMaxHandlePosition(position) {
-        if (position < this.minHandle.offsetLeft + this.maxHandle.offsetWidth) {
+        if ((position - this.maxHandle.offsetWidth/2) < (this.minHandle.offsetLeft + this.maxHandle.offsetWidth)) {
             this.maxHandle.style.zIndex = 5;
             this.minHandle.style.zIndex = 1;
-            return this.minHandle.offsetLeft;
         }
-        if (position > this.getMaxPosition())
+        if (position - this.maxHandle.offsetWidth/2 < this.minHandle.offsetLeft)
+            return this.minHandle.offsetLeft + this.maxHandle.offsetWidth/2;
+        if (position > this.elementWidth)
             return this.elementWidth;
         return position;
     }
@@ -206,12 +205,6 @@ class RangeSlider {
         left += element.offsetLeft;
         return left;
     }
-
-    getMaxPosition() {
-        return this.elementWidth - this.maxHandle.offsetWidth;
-    }
-
-
 }
 
 
