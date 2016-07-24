@@ -106,7 +106,6 @@ class RangeSlider {
 
         if (this.activeHandle) {
             let position = this.getHandleOffset(e);
-            console.log("mouse position", position);
             position = this.activeHandle.getPosition(position);
             const value = this.calculateHandleValue(position);
             this.setHandlePosition(this.activeHandle.element, this.activeHandle.label, position, value);
@@ -223,6 +222,5 @@ class RangeSlider {
         return left;
     }
 }
-
 
 export default RangeSlider;
