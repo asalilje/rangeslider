@@ -16,7 +16,6 @@
 
 .slider-container {
     width: 100%;
-
 }
 
 .slider {
@@ -64,6 +63,7 @@
     border: solid 1px white;
     z-index: 1;
     top: -5px;
+    cursor: ew-resize;
 }
 
 .slider-handle.active {
