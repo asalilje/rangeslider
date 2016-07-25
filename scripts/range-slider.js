@@ -200,7 +200,7 @@ class RangeSlider {
 
     setActiveInterval() {
         this.intervalTrack.style.left = `${this.minHandle.offsetLeft + this.maxHandle.offsetWidth / 2}px`;
-        this.intervalTrack.style.right = `${this.elementWidth - this.maxHandle.offsetWidth / 2}px`;
+        this.intervalTrack.style.right = `${this.elementWidth - this.maxHandle.offsetLeft}px`;
     }
 
     handleStop() {
