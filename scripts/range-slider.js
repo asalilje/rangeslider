@@ -89,8 +89,6 @@ class RangeSlider {
     }
 
     startSlide(e, data) {
-        e.preventDefault();
-
         this.activeHandle = {
             element: e.target,
             label: data.label,
@@ -134,7 +132,7 @@ class RangeSlider {
 
     calculateHandleValue(position) {
         const percentage = position / this.elementWidth * 100;
-        console.log(position, percentage);
+        console.log(`${position}px: ${percentage}%`);
         const rangeSection = this.getRangeSectionByPercentage(percentage);
         const values = this.getSectionValues(rangeSection);
         return Math.ceil((percentage - values.startPercentage) * (values.value * values.ratio) / 100 + values.startValue);
@@ -202,7 +200,7 @@ class RangeSlider {
 
     setActiveInterval() {
         this.intervalTrack.style.left = `${this.minHandle.offsetLeft + this.maxHandle.offsetWidth / 2}px`;
-        this.intervalTrack.style.right = `${this.elementWidth - this.maxHandle.offsetWidth / 2git }px`;
+        this.intervalTrack.style.right = `${this.elementWidth - this.maxHandle.offsetWidth / 2}px`;
     }
 
     handleStop() {

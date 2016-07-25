@@ -1,14 +1,22 @@
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 400px) {
     .main {
-        width: 80%;
+        width: 290px;
         margin: 60px auto;
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
 }
 
-@media screen and (min-width: 601px) {
+@media screen and (min-width: 401px) and (max-width: 500px) {
     .main {
-        width: 600px;
+        width: 380px;
+        margin: 60px auto;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+}
+
+@media screen and (min-width: 501px) {
+    .main {
+        width: 480px;
         margin: 60px auto;
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     }
