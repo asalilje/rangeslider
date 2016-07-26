@@ -103,7 +103,7 @@ class RangeSlider {
         e.preventDefault();
 
         if (this.activeHandle) {
-            let position = this.getHandleOffset(e);
+            let position = Math.ceil(this.getHandleOffset(e));
             position = this.activeHandle.getPosition(position);
             const value = this.calculateHandleValue(position);
             this.setHandlePosition(this.activeHandle.element, this.activeHandle.label, position, value);
