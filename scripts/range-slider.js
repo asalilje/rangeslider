@@ -116,7 +116,7 @@ class RangeSlider {
         if (isNaN(inputValue)) return;
 
         const percentage = this.calculateHandlePosition(inputValue);
-        let position = percentage / 100 * this.elementWidth;
+        let position = Math.ceil(percentage / 100 * this.elementWidth);
         position = data.getPosition(position);
         const value = this.calculateHandleValue(position);
         this.setHandlePosition(data.handle, e.target, position, value);
